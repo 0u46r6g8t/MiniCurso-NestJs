@@ -1,8 +1,10 @@
 import { createConnection } from 'typeorm';
 
+export const databaseProvider = 'DATABASE_CONNECTION';
+
 export const databaseProviders = [
   {
-    provide: 'DATABASE_CONNECTION',
+    provide: databaseProvider,
     useFactory: async () => {
       return createConnection({
         type: `postgres`,
@@ -11,10 +13,9 @@ export const databaseProviders = [
         username: `${process.env.TYPEORM_USERNAME}`,
         database: `${process.env.TYPEORM_DATABASE}`,
         password: `${process.env.TYPEORM_PASSWORD}`,
-        entities: [__dirname + '/../**/entities/*.entity.ts'],
-        migrationsRun: true,
+        entities: [__dirname + '/../**/typeorm/*.entity{.ts,.js}'],
+        migrations: [__dirname + '/../migrations/*{.ts,.js}'],
         migrationsTableName: '_migrations',
-        migrations: [__dirname + '/../migrations/*.ts'],
         synchronize: true,
       });
     },
