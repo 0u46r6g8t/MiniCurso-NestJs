@@ -1,4 +1,5 @@
 import BasicEntity from 'src/basic.entity';
+import { Exclude } from 'class-transformer';
 import { Entity, Column } from 'typeorm';
 
 @Entity('tb_students')
@@ -18,6 +19,7 @@ export class Student extends BasicEntity {
   })
   email: string;
 
+  @Exclude()
   @Column({
     type: 'varchar',
     length: 75,

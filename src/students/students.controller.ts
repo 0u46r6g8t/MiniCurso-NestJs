@@ -1,18 +1,22 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
   Param,
   Post,
   Put,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { CreateStudentDto } from './dto/create-student.dto';
+import { IParamsIdDTO } from './dto/paramsId.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { StudentsService } from './students.service';
 
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('students')
 export class StudentsController {
   constructor(private readonly studentsService: StudentsService) {}
@@ -30,12 +34,15 @@ export class StudentsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.studentsService.findOne(+id);
+    return this.studentsService.findOne(id);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDto) {
-    return this.studentsService.update(+id, updateStudentDto);
+  update(
+    @Param() params: IParamsIdDTO,
+    @Body() updateStudentDto: UpdateStudentDto,
+  ) {
+    return this.studentsService.update(params.id, updateStudentDto);
   }
 
   @Delete(':id')

@@ -2,7 +2,7 @@ import {
   ConflictException,
   Inject,
   Injectable,
-  InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { CreateStudentDto } from './dto/create-student.dto';
@@ -28,23 +28,46 @@ export class StudentsService {
 
     this.studentRepository.save(student);
 
+    console.log(student);
+
     return student;
   }
 
   findAll() {
-    return `This action returns all students`;
+    return this.studentRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} student`;
+  async findOne(id: string) {
+    const student = await this.studentRepository.findOne(id);
+
+    if (!student) {
+      throw new NotFoundException(`Student with id "${id}" not found`);
+    }
+
+    return student;
   }
 
   async findByEmail(email: string) {
     return this.studentRepository.findOne({ email });
   }
 
-  update(id: number, updateStudentDto: UpdateStudentDto) {
-    return `This action updates a #${id} student`;
+  async update(
+    id: string,
+    updateStudentDto: UpdateStudentDto,
+  ): Promise<Student> {
+    await this.findOne(id);
+
+    if (updateStudentDto.email) {
+      const emailExists = await this.findByEmail(updateStudentDto.email);
+
+      if (emailExists && emailExists.id !== id) {
+        throw new ConflictException('Email already exists');
+      }
+    }
+
+    await this.studentRepository.update(id, updateStudentDto);
+
+    return this.findOne(id);
   }
 
   remove(id: number) {
