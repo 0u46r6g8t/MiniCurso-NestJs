@@ -1,4 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UsePipes,
+  ValidationPipe,
+  HttpCode,
+  HttpStatus,
+  Put,
+} from '@nestjs/common';
 import { SubjectsService } from './subjects.service';
 import { CreateSubjectDto } from './dto/create-subject.dto';
 import { UpdateSubjectDto } from './dto/update-subject.dto';
@@ -8,6 +21,8 @@ export class SubjectsController {
   constructor(private readonly subjectsService: SubjectsService) {}
 
   @Post()
+  @UsePipes(new ValidationPipe())
+  @HttpCode(HttpStatus.CREATED)
   create(@Body() createSubjectDto: CreateSubjectDto) {
     return this.subjectsService.create(createSubjectDto);
   }
@@ -19,16 +34,16 @@ export class SubjectsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.subjectsService.findOne(+id);
+    return this.subjectsService.findOne(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateSubjectDto: UpdateSubjectDto) {
-    return this.subjectsService.update(+id, updateSubjectDto);
+    return this.subjectsService.update(id, updateSubjectDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.subjectsService.remove(+id);
+    return this.subjectsService.remove(id);
   }
 }
