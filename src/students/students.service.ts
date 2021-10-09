@@ -28,8 +28,6 @@ export class StudentsService {
 
     this.studentRepository.save(student);
 
-    console.log(student);
-
     return student;
   }
 
