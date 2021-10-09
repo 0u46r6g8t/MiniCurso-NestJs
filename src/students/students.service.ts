@@ -1,4 +1,9 @@
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
@@ -9,11 +14,21 @@ import { Student } from './typeorm/student.entity';
 export class StudentsService {
   constructor(
     @Inject(STUDENT_REPOSITORY)
-    private photoRepository: Repository<Student>,
+    private studentRepository: Repository<Student>,
   ) {}
 
-  create(createStudentDto: CreateStudentDto) {
-    return 'This action adds a new student';
+  async create(createStudentDto: CreateStudentDto) {
+    const emailExists = await this.findByEmail(createStudentDto.email);
+
+    if (emailExists) {
+      throw new ConflictException('Email already exists');
+    }
+
+    const student = this.studentRepository.create(createStudentDto);
+
+    this.studentRepository.save(student);
+
+    return student;
   }
 
   findAll() {
@@ -22,6 +37,10 @@ export class StudentsService {
 
   findOne(id: number) {
     return `This action returns a #${id} student`;
+  }
+
+  async findByEmail(email: string) {
+    return this.studentRepository.findOne({ email });
   }
 
   update(id: number, updateStudentDto: UpdateStudentDto) {
