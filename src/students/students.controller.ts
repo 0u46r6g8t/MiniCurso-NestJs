@@ -4,6 +4,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   Param,
   Post,
   Put,
@@ -46,8 +47,10 @@ export class StudentsController {
     return this.studentsService.update(params.id, updateStudentDto);
   }
 
+  @UsePipes(new ValidationPipe())
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.studentsService.remove(+id);
+  @HttpCode(204)
+  remove(@Param() params: IParamsIdDTO) {
+    return this.studentsService.remove(params.id);
   }
 }

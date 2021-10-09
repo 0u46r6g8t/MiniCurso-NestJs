@@ -70,7 +70,7 @@ export class StudentsService {
     return this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} student`;
+  async remove(id: string) {
+    await this.studentRepository.delete(id);
   }
 }
