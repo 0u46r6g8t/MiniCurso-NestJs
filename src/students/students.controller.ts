@@ -37,6 +37,7 @@ export class StudentsController {
     return this.studentsService.findOne(id);
   }
 
+  @UsePipes(new ValidationPipe())
   @Put(':id')
   update(
     @Param() params: IParamsIdDTO,
