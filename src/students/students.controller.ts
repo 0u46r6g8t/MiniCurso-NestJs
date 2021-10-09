@@ -33,9 +33,10 @@ export class StudentsController {
     return this.studentsService.findAll();
   }
 
+  @UsePipes(new ValidationPipe())
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.studentsService.findOne(id);
+  findOne(@Param() params: IParamsIdDTO) {
+    return this.studentsService.findOne(params.id);
   }
 
   @UsePipes(new ValidationPipe())
