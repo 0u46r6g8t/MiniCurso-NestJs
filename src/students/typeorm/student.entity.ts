@@ -1,6 +1,6 @@
 import BasicEntity from 'src/basic.entity';
 import { Exclude } from 'class-transformer';
-import { Entity, Column, OneToMany } from 'typeorm';
+import { Entity, Column, OneToMany, ManyToMany, JoinTable } from 'typeorm';
 import { Subject } from 'src/subjects/typeorm/subject.entity';
 
 @Entity('tb_students')
@@ -28,9 +28,7 @@ export class Student extends BasicEntity {
   })
   password: string;
 
-  @OneToMany(() => Subject, (subject) => subject.student, {
-    onDelete: 'SET NULL',
-    onUpdate: 'CASCADE',
-  })
+  @ManyToMany((type) => Subject)
+  @JoinTable()
   subjects: Subject[];
 }

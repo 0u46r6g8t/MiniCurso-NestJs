@@ -1,6 +1,6 @@
 import BasicEntity from 'src/basic.entity';
 import { Student } from 'src/students/typeorm/student.entity';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToMany, ManyToOne } from 'typeorm';
 
 @Entity('tb_subjects')
 export class Subject extends BasicEntity {
@@ -37,12 +37,4 @@ export class Subject extends BasicEntity {
     },
   })
   timeInTheWeek: string[];
-
-  @ManyToOne(() => Student, (student) => student.subjects, {
-    eager: true,
-    nullable: false,
-    onDelete: 'SET NULL',
-    onUpdate: 'CASCADE',
-  })
-  student: Student;
 }
