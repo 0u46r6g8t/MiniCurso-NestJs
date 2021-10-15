@@ -1,7 +1,6 @@
 import BasicEntity from 'src/basic.entity';
 import { Exclude } from 'class-transformer';
 import { Entity, Column, OneToMany, ManyToMany, JoinTable } from 'typeorm';
-import { Subject } from 'src/subjects/typeorm/subject.entity';
 
 @Entity('tb_students')
 export class Student extends BasicEntity {
@@ -28,7 +27,5 @@ export class Student extends BasicEntity {
   })
   password: string;
 
-  @ManyToMany((type) => Subject)
-  @JoinTable()
-  subjects: Subject[];
+  subjects: any;
 }

@@ -13,7 +13,6 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { CreateStudentDto } from './dto/create-student.dto';
-import { IParamsIdDTO } from './dto/paramsId.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { StudentsService } from './students.service';
 
@@ -35,23 +34,20 @@ export class StudentsController {
 
   @UsePipes(new ValidationPipe())
   @Get(':id')
-  findOne(@Param() params: IParamsIdDTO) {
-    return this.studentsService.findOne(params.id);
+  findOne(@Param() params: string) {
+    return this.studentsService.findOne(params);
   }
 
   @UsePipes(new ValidationPipe())
   @Put(':id')
-  update(
-    @Param() params: IParamsIdDTO,
-    @Body() updateStudentDto: UpdateStudentDto,
-  ) {
-    return this.studentsService.update(params.id, updateStudentDto);
+  update(@Param() params: string, @Body() updateStudentDto: UpdateStudentDto) {
+    return this.studentsService.update(params, updateStudentDto);
   }
 
   @UsePipes(new ValidationPipe())
   @Delete(':id')
   @HttpCode(204)
-  remove(@Param() params: IParamsIdDTO) {
-    return this.studentsService.remove(params.id);
+  remove(@Param() params: string) {
+    return this.studentsService.remove(params);
   }
 }

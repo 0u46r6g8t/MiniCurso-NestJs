@@ -16,7 +16,6 @@ export const databaseProviders = [
         entities: [__dirname + '/../**/typeorm/*.entity{.ts,.js}'],
         migrations: [__dirname + '/../migrations/*{.ts,.js}'],
         migrationsTableName: '_migrations',
-        synchronize: true,
       });
     },
   },
