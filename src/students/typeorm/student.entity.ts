@@ -1,6 +1,6 @@
-import BasicEntity from 'src/basic.entity';
 import { Exclude } from 'class-transformer';
-import { Entity, Column, OneToMany, ManyToMany, JoinTable } from 'typeorm';
+import BasicEntity from 'src/basic.entity';
+import { Column, Entity } from 'typeorm';
 
 @Entity('tb_students')
 export class Student extends BasicEntity {
