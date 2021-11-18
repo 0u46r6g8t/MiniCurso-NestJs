@@ -17,7 +17,8 @@ import { Student } from './typeorm/student.entity';
 export class StudentsService {
   constructor(
     @Inject(STUDENT_REPOSITORY)
-    private studentRepository: Repository<Student>, // private readonly subjectsService: SubjectsService,
+    private studentRepository: Repository<Student>,
+    private readonly subjectsService: SubjectsService,
   ) {}
 
   async create(createStudentDto: CreateStudentDto) {

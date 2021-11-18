@@ -1,19 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { StudentsService } from '../../students/students.service';
 import { STUDENT_REPOSITORY } from '../../students/typeorm/repository.provider';
+import { SubjectsService } from '../../subjects/subjects.service';
+import {
+  mockRepository,
+  resetMocks,
+  SubjectsServiceMock,
+} from '../mocks/mockClasses';
 import StudentUtil from '../mocks/StudentUtil';
 
 describe('SERVICE - Find all students', () => {
   let studentsService: StudentsService;
-
-  const mockRepository = {
-    find: jest.fn(),
-    findOne: jest.fn(),
-    create: jest.fn(),
-    save: jest.fn(),
-    update: jest.fn(),
-    delete: jest.fn(),
-  };
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -24,6 +21,10 @@ describe('SERVICE - Find all students', () => {
           useFactory: () => mockRepository,
           inject: [],
         },
+        {
+          provide: SubjectsService,
+          useFactory: () => SubjectsServiceMock,
+        },
       ],
     }).compile();
 
@@ -31,12 +32,8 @@ describe('SERVICE - Find all students', () => {
   });
 
   beforeEach(() => {
-    mockRepository.find.mockReset();
-    mockRepository.findOne.mockReset();
-    mockRepository.create.mockReset();
-    mockRepository.save.mockReset();
-    mockRepository.update.mockReset();
-    mockRepository.delete.mockReset();
+    resetMocks(mockRepository);
+    resetMocks(SubjectsServiceMock);
   });
 
   it('should be defined', () => {
