@@ -1,4 +1,4 @@
-import { databaseProvider } from 'src/config/database.providers';
+import { databaseProvider } from '../../config/database.providers';
 import { Connection } from 'typeorm';
 import { Subject } from './subject.entity';
 
