@@ -1,5 +1,6 @@
 import BasicEntity from 'src/basic.entity';
-import { Column, Entity } from 'typeorm';
+import { Student } from 'src/students/typeorm/student.entity';
+import { Column, Entity, ManyToMany } from 'typeorm';
 
 @Entity('tb_subjects')
 export class Subject extends BasicEntity {
@@ -27,13 +28,15 @@ export class Subject extends BasicEntity {
     nullable: false,
     type: 'varchar',
     transformer: {
-      to(value) {
+      to(value: string[]) {
         return value.join(';');
       },
-      from(value) {
-        return value.split(';');
+      from(value: string | null) {
+        return value?.split(';');
       },
     },
   })
   timeInTheWeek: string[];
+
+  students: Student[];
 }

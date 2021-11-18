@@ -1,7 +1,7 @@
-import BasicEntity from 'src/basic.entity';
 import { Exclude } from 'class-transformer';
-import { Entity, Column, OneToMany, ManyToMany, JoinTable } from 'typeorm';
+import BasicEntity from 'src/basic.entity';
 import { Subject } from 'src/subjects/typeorm/subject.entity';
+import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 @Entity('tb_students')
 export class Student extends BasicEntity {
   @Column({
@@ -27,7 +27,10 @@ export class Student extends BasicEntity {
   })
   password: string;
 
-  @ManyToMany((type) => Subject)
+  @ManyToMany(() => Subject, (subject) => subject.students, {
+    cascade: true,
+    eager: true,
+  })
   @JoinTable()
   subjects: Subject[];
 }
