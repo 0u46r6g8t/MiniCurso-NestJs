@@ -3,10 +3,8 @@ import {
   IsArray,
   IsDefined,
   IsNotEmpty,
-  isNotEmpty,
   IsNumber,
   IsString,
-  MinLength,
 } from 'class-validator';
 
 export class CreateSubjectDto {

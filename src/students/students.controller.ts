@@ -5,6 +5,7 @@ import {
   Delete,
   Get,
   HttpCode,
+  HttpStatus,
   Param,
   Post,
   Put,
@@ -24,6 +25,7 @@ export class StudentsController {
 
   @UsePipes(new ValidationPipe())
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   create(@Body() createStudentDto: CreateStudentDto) {
     return this.studentsService.create(createStudentDto);
   }
@@ -50,7 +52,7 @@ export class StudentsController {
 
   @UsePipes(new ValidationPipe())
   @Delete(':id')
-  @HttpCode(204)
+  @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param() params: IParamsIdDTO) {
     return this.studentsService.remove(params.id);
   }

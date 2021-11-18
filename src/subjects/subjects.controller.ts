@@ -1,20 +1,20 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
-  UsePipes,
-  ValidationPipe,
+  Get,
   HttpCode,
   HttpStatus,
+  Param,
+  Post,
   Put,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
-import { SubjectsService } from './subjects.service';
+import { IParamsIdDTO } from './dto/paramsId.dto';
 import { CreateSubjectDto } from './dto/create-subject.dto';
 import { UpdateSubjectDto } from './dto/update-subject.dto';
+import { SubjectsService } from './subjects.service';
 
 @Controller('subjects')
 export class SubjectsController {
@@ -32,18 +32,25 @@ export class SubjectsController {
     return this.subjectsService.findAll();
   }
 
+  @UsePipes(new ValidationPipe())
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.subjectsService.findOne(id);
+  findOne(@Param() params: IParamsIdDTO) {
+    return this.subjectsService.findOne(params.id);
   }
 
+  @UsePipes(new ValidationPipe())
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateSubjectDto: UpdateSubjectDto) {
-    return this.subjectsService.update(id, updateSubjectDto);
+  update(
+    @Param() params: IParamsIdDTO,
+    @Body() updateSubjectDto: UpdateSubjectDto,
+  ) {
+    return this.subjectsService.update(params.id, updateSubjectDto);
   }
 
+  @UsePipes(new ValidationPipe())
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.subjectsService.remove(id);
+  @HttpCode(HttpStatus.NO_CONTENT)
+  remove(@Param() params: IParamsIdDTO) {
+    return this.subjectsService.remove(params.id);
   }
 }

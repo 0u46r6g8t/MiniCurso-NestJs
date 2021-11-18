@@ -23,22 +23,23 @@ export class SubjectsService {
   }
 
   async findOne(id: string) {
-    return await this.subjectRepository.findOne(id);
+    const subject = await this.subjectRepository.findOne(id);
+
+    if (!subject)
+      throw new NotFoundException(`Subject with id "${id}" not found`);
+
+    return subject;
   }
 
   async update(id: string, updateSubjectDto: UpdateSubjectDto) {
-    const subject = this.findOne(id);
+    await this.findOne(id);
 
-    if (!subject) throw new NotFoundException(`Subject not registered`);
+    await this.subjectRepository.update(id, updateSubjectDto);
 
-    return await this.subjectRepository.update(id, updateSubjectDto);
+    return this.findOne(id);
   }
 
   async remove(id: string) {
-    const subject = this.findOne(id);
-
-    if (!subject) throw new NotFoundException('Subject not registered');
-
-    return await this.subjectRepository.delete(id);
+    await this.subjectRepository.delete(id);
   }
 }

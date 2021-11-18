@@ -1,6 +1,5 @@
 import BasicEntity from 'src/basic.entity';
-import { Student } from 'src/students/typeorm/student.entity';
-import { Column, Entity, ManyToMany, ManyToOne } from 'typeorm';
+import { Column, Entity } from 'typeorm';
 
 @Entity('tb_subjects')
 export class Subject extends BasicEntity {
