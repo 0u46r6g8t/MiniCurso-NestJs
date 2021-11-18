@@ -7,7 +7,7 @@ export const mockRepository = {
   delete: jest.fn(),
 };
 
-export const SubjectsServiceMock = {
+export const subjectsServiceMock = {
   create: jest.fn(),
   findAll: jest.fn(),
   findOne: jest.fn(),

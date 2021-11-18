@@ -78,25 +78,21 @@ export class StudentsService {
 
   async createSubscription({ subjectId, studentId }: CreateSubscriptionDto) {
     const student = await this.findOne(studentId);
-    //   const suject = await this.subjectsService.findOne(subjectId);
+    const suject = await this.subjectsService.findOne(subjectId);
 
-    //   console.log(student, suject);
-    //   student.subjects.push(suject);
+    student.subjects.push(suject);
 
-    //   console.log(student, suject);
-    //   await this.studentRepository.save(student);
-
-    //   return this.findOne(studentId);
+    return this.studentRepository.save(student);
   }
 
   async removeSubscription({ subjectId, studentId }: RemoveSubscriptionDto) {
     const student = await this.findOne(studentId);
-    // const suject = await this.subjectsService.findOne(subjectId);
+    const suject = await this.subjectsService.findOne(subjectId);
 
-    // student.subjects = student.subjects.filter(
-    //   (SubjectStudent) => SubjectStudent.id !== suject.id,
-    // );
+    student.subjects = student.subjects.filter(
+      (SubjectStudent) => SubjectStudent.id !== suject.id,
+    );
 
-    // await this.studentRepository.save(student);
+    await this.studentRepository.save(student);
   }
 }

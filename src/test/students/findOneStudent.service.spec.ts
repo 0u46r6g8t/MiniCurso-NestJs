@@ -7,7 +7,7 @@ import { SubjectsService } from '../../subjects/subjects.service';
 import {
   mockRepository,
   resetMocks,
-  SubjectsServiceMock,
+  subjectsServiceMock,
 } from '../mocks/mockClasses';
 import StudentUtil from '../mocks/StudentUtil';
 
@@ -25,7 +25,7 @@ describe('SERVICE - Find one students', () => {
         },
         {
           provide: SubjectsService,
-          useFactory: () => SubjectsServiceMock,
+          useFactory: () => subjectsServiceMock,
         },
       ],
     }).compile();
@@ -35,7 +35,7 @@ describe('SERVICE - Find one students', () => {
 
   beforeEach(() => {
     resetMocks(mockRepository);
-    resetMocks(SubjectsServiceMock);
+    resetMocks(subjectsServiceMock);
   });
 
   it('should be defined', () => {
