@@ -29,7 +29,7 @@ export class StudentsService {
 
     const student = this.studentRepository.create(createStudentDto);
 
-    this.studentRepository.save(student);
+    await this.studentRepository.save(student);
 
     return student;
   }
